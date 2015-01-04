@@ -31,7 +31,7 @@ class FullPrintR {
 				'2' =>
 					['yyy' => ['kjhkj' => 878]],
 				'3' =>
-				[]
+				['']
 
 			]
 		);
@@ -45,22 +45,25 @@ class FullPrintR {
 
 	}
 
+	/**
+	 * @param array $val
+	 * @return string
+     */
 	protected function getVarsRec($val) {
-			foreach ($val as $k => $v) {
-				$this->i++;
-				if (is_array($v)) {
-					$this->out .= $this->sp.$k." => \n<br/>";
-					$this->sp .= '-';
-					$this->getVarsRec($v);
-				} else {
-					$this->i = 0;
-					$this->out .=  "{$this->sp}{$k} => {$v}\n<br/>";
-				}
-				if ($this->i == count($val) - 1)
-					$this->sp = substr($this->sp, -1, $this->i);
+		$val = is_array($val) ? $val : [$val];
+		foreach ($val as $k => $v) {
+			if (is_array($v)) {
+				$this->out .= "{$this->indent}{$k} => \n<br/>";
+				$this->indent .= ' -- ';
+				$this->getVarsRec($v);
+			} else {
+				$this->out .=  "{$this->indent}{$k} => {$v}\n<br/>";
 			}
+			if (count($val) == 1) $this->indent = '';
+		}
 	}
 
 }
 
-$A = new
+$A = new FullPrintR();
+$A->getString();
