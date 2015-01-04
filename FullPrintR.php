@@ -1,10 +1,10 @@
 <?php
 
-class FullPrintR{
+class FullPrintR {
 
-	public $sp = '';
-	public $i = 0;
-	public $out = '';
+	private $indent = '';
+	private $i = 0;
+	private $out = '';
 
 	public function getIndex()
 	{
@@ -36,17 +36,16 @@ class FullPrintR{
 			]
 		);
 		//print $this->out;
-//		foreach (['hggr',['hj' => ['eg','ege','tt' => [1,2,3]]], 'yyy'] as $key => $val) {
-//			$this->sp = '';
-//			echo $key."\n";
-//			$this->getVarsRec($val);
-//		}
-		//var_dump(get_class_vars('CommentsController'));
+
 		return View::make('comments')
 			->with(['page' => 'comments','one' => 1, 'two' => $this->out, 'three' => ['rr', 'tt']]);
 	}
 
-	public function getVarsRec($val) {
+	public function getString() {
+
+	}
+
+	protected function getVarsRec($val) {
 			foreach ($val as $k => $v) {
 				$this->i++;
 				if (is_array($v)) {
@@ -55,7 +54,7 @@ class FullPrintR{
 					$this->getVarsRec($v);
 				} else {
 					$this->i = 0;
-					$this->out .=  $this->sp.$k.' => '.$v."\n<br/>";
+					$this->out .=  "{$this->sp}{$k} => {$v}\n<br/>";
 				}
 				if ($this->i == count($val) - 1)
 					$this->sp = substr($this->sp, -1, $this->i);
@@ -63,3 +62,5 @@ class FullPrintR{
 	}
 
 }
+
+$A = new
